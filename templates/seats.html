@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Seat Booking Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Seat Booking Tool</h1>
+        <form id="booking-form" method="POST">
+            <label for="num-seats">Select the number of seats to book:</label>
+            <select id="num-seats" name="num_seats">
+                <option value="1">1 Seat</option>
+                <option value="2">2 Seats</option>
+                <option value="3">3 Seats</option>
+                <option value="4">4 Seats</option>
+                <option value="5">5 Seats</option>
+                <option value="6">6 Seats</option>
+                <option value="7">7 Seats</option>
+            </select>
+            <button type="submit">Book Seats</button>
+        </form>
+
+        <div id="seat-map">
+            {% set col_counter = 1 %}
+            {% for row in coach_seats %}
+            <div class="row">
+                {% for seat in row %}
+                <div class="seat {% if seat == 0 %}available{% else %}booked{% endif %}">
+                    {% if seat == 0 %}Seat {{ loop.index }}-{{ col_counter }}
+                        {% set col_counter = col_counter + 1 %}
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <div id="booked-seats">
+            <p>Booked Seats: 
+                {% if booked_seat %}
+                    {% for seat in booked_seat %}
+                        Seat {{ seat[0] }}-{{ seat[1] }}
+                        {% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                {% else %}
+                    No seats booked yet.
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript code (if needed) can be placed here
+    </script>
+</body>
+</html>
